@@ -11,10 +11,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-// import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -39,7 +39,7 @@ public class Robot extends TimedRobot {
   private final CANSparkMax m_rightfollow = new CANSparkMax(rightID2, MotorType.kBrushless);
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftlead, m_rightlead);
-  private final Joystick m_stick = new Joystick(0);
+  //private final XboxController m_stick = new Joystick(0);
 
   @Override
   public void robotInit() {
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_leftfollow.follow(m_leftlead);
     m_rightfollow.follow(m_rightlead);
-    m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
+    //m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
   }
 }
 
