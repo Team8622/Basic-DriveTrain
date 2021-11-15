@@ -12,7 +12,7 @@
 //This branch HAS camera control
 
 package frc.robot;
-package org.usfirst.frc.team190.robot;
+//package org.usfirst.frc.team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
