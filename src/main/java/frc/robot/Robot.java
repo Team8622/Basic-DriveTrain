@@ -9,7 +9,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+//This branch HAS camera control
+
 package frc.robot;
+package org.usfirst.frc.team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -17,6 +20,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Sourced from WPILib's Arcade Drive example, Rev's CAN Spark example, and some guessing
@@ -45,6 +50,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    //Sends footage to SmartDashboard
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
