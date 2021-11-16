@@ -25,31 +25,37 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
+//import org.opencv.core.Mat;
+//import org.opencv.imgproc.Imgproc;
 
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
+//import edu.wpi.cscore.CvSink;
+//import edu.wpi.cscore.CvSource;
+//import edu.wpi.cscore.UsbCamera;
+//import edu.wpi.first.cameraserver.CameraServer;
 
-public class Robot extends IterativeRobot{
+// public class Robot extends IterativeRobot{
 
-  public void robotInit(){
-    new Thread(() -> {
-      UsbCamera camera =CameraServer.startAutomaticCapture();
-      camera.setResolution(640, 480);
+//   public void robotInit(){
+//     new Thread(() -> {
+//       UsbCamera camera =CameraServer.startAutomaticCapture();
+//       camera.setResolution(640, 480);
 
-      CvSink cvSink = CameraServer.getVideo();
-      CvSource outputStream = CameraServer.putVideo
+//     CvSink cvSink = CameraServer.getVideo();
+//     CvSource outputStream = CameraServer.putVideo;
     
-      Mat source = new Mat();
-      Mat output = new Mat();
-      
-    })
-  }
-}
+//     Mat source = new Mat();
+//     Mat output = new Mat();
+
+//     while(!Thread.interrupted())
+//       if(cvSink.grabFrame(source)==0) {
+//         continue;
+//       }
+//       Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+//       outputStream.putFrame(output);
+//       }
+//     }).start();
+//   }
+// }
 
 
 
@@ -91,6 +97,6 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_leftfollow.follow(m_leftlead);
     m_rightfollow.follow(m_rightlead);
-    m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * 0.5 , -m_stick.getRawAxis(rightYAxis) * 0.5);
+    m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * 0.75 , -m_stick.getRawAxis(rightYAxis) * 0.75);
   }
 }
