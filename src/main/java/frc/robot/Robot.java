@@ -25,44 +25,45 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-//import org.opencv.core.Mat;
-//import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
-//import edu.wpi.cscore.CvSink;
-//import edu.wpi.cscore.CvSource;
-//import edu.wpi.cscore.UsbCamera;
-//import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+// import edu.wpi.first.cameraserver.CameraServer;
+// import edu.wpi.first.wpilibj.IterativeRobot;
 
 // public class Robot extends IterativeRobot{
 
 //   public void robotInit(){
 //     new Thread(() -> {
-//       UsbCamera camera =CameraServer.startAutomaticCapture();
+//       UsbCamera camera = CameraServer.startAutomaticCapture();
 //       camera.setResolution(640, 480);
 
 //     CvSink cvSink = CameraServer.getVideo();
-//     CvSource outputStream = CameraServer.putVideo;
+//     CvSource outputStream = CameraServer.putVideo("Blur",640,480);
     
 //     Mat source = new Mat();
 //     Mat output = new Mat();
 
-//     while(!Thread.interrupted())
+//     while(!Thread.interrupted()){
 //       if(cvSink.grabFrame(source)==0) {
 //         continue;
 //       }
 //       Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
 //       outputStream.putFrame(output);
-//       }
-//     }).start();
-//   }
-// }
+//        }
+//      }).start();
+//    }
+//  }
 
 
 
 /**
  * Sourced from WPILib's Arcade Drive example, Rev's CAN Spark example, and some guessing
  */
-public class Robot extends TimedRobot {
+public class Robot extends IterativeRobot {
 
   //Motor Controller CAN Ids
   public static final int leftID1 = 1;
