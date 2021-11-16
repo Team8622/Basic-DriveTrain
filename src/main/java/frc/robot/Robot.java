@@ -12,6 +12,10 @@
 //This branch HAS camera control
 
 package frc.robot;
+import edu.wpi.first.cameraserver.CameraServer;
+
+
+
 //package org.usfirst.frc.team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,7 +25,33 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.IterativeRobot;
+
+public class Robot extends IterativeRobot{
+
+  public void robotInit(){
+    new Thread(() -> {
+      UsbCamera camera =CameraServer.startAutomaticCapture();
+      camera.setResolution(640, 480);
+
+      CvSink cvSink = CameraServer.getVideo();
+      CvSource outputStream = CameraServer.putVideo
+    
+      Mat source = new Mat();
+      Mat output = new Mat();
+      
+    })
+  }
+}
+
+
 
 /**
  * Sourced from WPILib's Arcade Drive example, Rev's CAN Spark example, and some guessing
