@@ -52,6 +52,6 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_leftfollow.follow(m_leftlead);
     m_rightfollow.follow(m_rightlead);
-    m_robotDrive.arcadeDrive(-m_stick.getY() * 0.5, m_stick.getX());
+    m_robotDrive.arcadeDrive(-m_stick.getY() * 0.75, m_stick.getX());
   }
 }
