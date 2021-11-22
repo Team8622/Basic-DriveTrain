@@ -31,18 +31,19 @@ import org.opencv.imgproc.Imgproc;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
-// import edu.wpi.first.cameraserver.CameraServer;
-// import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.IterativeRobot;
 
 // public class Robot extends IterativeRobot{
 
 //   public void robotInit(){
 //     new Thread(() -> {
-//       UsbCamera camera = CameraServer.startAutomaticCapture();
+//       UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+
 //       camera.setResolution(640, 480);
 
-//     CvSink cvSink = CameraServer.getVideo();
-//     CvSource outputStream = CameraServer.putVideo("Blur",640,480);
+//     CvSink cvSink = CameraServer.getInstance().getVideo();
+//     CvSource outputStream = CameraServer.getInstance().putVideo("Blur",640,480);
     
 //     Mat source = new Mat();
 //     Mat output = new Mat();
@@ -63,8 +64,7 @@ import edu.wpi.cscore.UsbCamera;
 /**
  * Sourced from WPILib's Arcade Drive example, Rev's CAN Spark example, and some guessing
  */
-public class Robot extends IterativeRobot {
-
+public class Robot extends TimedRobot {
   //Motor Controller CAN Ids
   public static final int leftID1 = 1;
   public static final int leftID2 = 2;
@@ -87,9 +87,30 @@ public class Robot extends IterativeRobot {
 
   @Override
   public void robotInit() {
+    new Thread(() -> {
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+
+      camera.setResolution(640, 480);
+
+    CvSink cvSink = CameraServer.getInstance().getVideo();
+    CvSource outputStream = CameraServer.getInstance().putVideo("Blur",640,480);
+    
+    Mat source = new Mat();
+    Mat output = new Mat();
+
+    while(!Thread.interrupted()){
+      if(cvSink.grabFrame(source)==0) {
+        continue;
+      }
+      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+      outputStream.putFrame(output);
+       }
+     }).start();
+   }
+ 
     //Sends footage to SmartDashboard
-    CameraServer.getInstance().startAutomaticCapture();
-  }
+    //CameraServer.startAutomaticCapture();
+  
 
   @Override
   public void teleopPeriodic() {
