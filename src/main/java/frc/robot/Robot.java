@@ -32,34 +32,6 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.IterativeRobot;
-
-// public class Robot extends IterativeRobot{
-
-//   public void robotInit(){
-//     new Thread(() -> {
-//       UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-
-//       camera.setResolution(640, 480);
-
-//     CvSink cvSink = CameraServer.getInstance().getVideo();
-//     CvSource outputStream = CameraServer.getInstance().putVideo("Blur",640,480);
-    
-//     Mat source = new Mat();
-//     Mat output = new Mat();
-
-//     while(!Thread.interrupted()){
-//       if(cvSink.grabFrame(source)==0) {
-//         continue;
-//       }
-//       Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-//       outputStream.putFrame(output);
-//        }
-//      }).start();
-//    }
-//  }
-
-
 
 /**
  * Sourced from WPILib's Arcade Drive example, Rev's CAN Spark example, and some guessing
@@ -73,6 +45,12 @@ public class Robot extends TimedRobot {
 
   public static final int leftYAxis = 1;
   public static final int rightYAxis = 5;
+
+  //relative speed of drivetrain
+  public static double speed = 0.75;
+
+  //joystick == true; controller == false
+  public static boolean joystick = true;
   
   //Left Side Motor Controllers
   private final CANSparkMax m_leftlead = new CANSparkMax(leftID1, MotorType.kBrushless);  
@@ -119,6 +97,11 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_leftfollow.follow(m_leftlead);
     m_rightfollow.follow(m_rightlead);
-    m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * 0.75 , -m_stick.getRawAxis(rightYAxis) * 0.75);
+
+    if(joystick){
+      m_robotDrive.arcadeDrive(-m_stick.getY() * speed, m_stick.getX());
+    }else{
+      m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * speed , -m_stick.getRawAxis(rightYAxis) * speed);
+    }
   }
 }
