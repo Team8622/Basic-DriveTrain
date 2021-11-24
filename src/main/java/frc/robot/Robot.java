@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 // import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot {
   public static final int rightID1 = 3;
   public static final int rightID2 = 4;
   //ospeed addjustment for drivetrain
-  public static int speed = 0.75; 
+  public static int speed = 1;
   
   //Left Side Motor Controllers
   private final CANSparkMax m_leftlead = new CANSparkMax(leftID1, MotorType.kBrushless);  
