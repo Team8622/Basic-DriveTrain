@@ -29,6 +29,8 @@ public class Robot extends TimedRobot {
   public static final int leftID2 = 2;
   public static final int rightID1 = 3;
   public static final int rightID2 = 4;
+  //ospeed addjustment for drivetrain
+  public static int speed = 0.75; 
   
   //Left Side Motor Controllers
   private final CANSparkMax m_leftlead = new CANSparkMax(leftID1, MotorType.kBrushless);  
@@ -43,6 +45,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    //Sends footage to SmartDashboard
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
@@ -52,6 +56,6 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_leftfollow.follow(m_leftlead);
     m_rightfollow.follow(m_rightlead);
-    m_robotDrive.arcadeDrive(-m_stick.getY() * 0.75, m_stick.getX());
+    m_robotDrive.arcadeDrive(-m_stick.getY() * speed, m_stick.getX());
   }
 }
