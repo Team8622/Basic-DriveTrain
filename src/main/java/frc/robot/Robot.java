@@ -9,26 +9,48 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+//This branch HAS camera control
+
 package frc.robot;
+import edu.wpi.first.cameraserver.CameraServer;
+
+
+
+//package org.usfirst.frc.team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-// import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 
 /**
  * Sourced from WPILib's Arcade Drive example, Rev's CAN Spark example, and some guessing
  */
 public class Robot extends TimedRobot {
-
   //Motor Controller CAN Ids
   public static final int leftID1 = 1;
   public static final int leftID2 = 2;
   public static final int rightID1 = 3;
   public static final int rightID2 = 4;
+
+  public static final int leftYAxis = 1;
+  public static final int rightYAxis = 5;
+
+  //relative speed of drivetrain
+  public static double speed = 0.75;
+
+  //joystick == true; controller == false
+  public static boolean joystick = true;
   
   //Left Side Motor Controllers
   private final CANSparkMax m_leftlead = new CANSparkMax(leftID1, MotorType.kBrushless);  
@@ -43,7 +65,30 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-  }
+    new Thread(() -> {
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+
+      camera.setResolution(640, 480);
+
+    CvSink cvSink = CameraServer.getInstance().getVideo();
+    CvSource outputStream = CameraServer.getInstance().putVideo("Blur",640,480);
+    
+    Mat source = new Mat();
+    Mat output = new Mat();
+
+    while(!Thread.interrupted()){
+      if(cvSink.grabFrame(source)==0) {
+        continue;
+      }
+      Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+      outputStream.putFrame(output);
+       }
+     }).start();
+   }
+ 
+    //Sends footage to SmartDashboard
+    //CameraServer.startAutomaticCapture();
+  
 
   @Override
   public void teleopPeriodic() {
@@ -52,6 +97,11 @@ public class Robot extends TimedRobot {
     // and backward, and the X turns left and right.
     m_leftfollow.follow(m_leftlead);
     m_rightfollow.follow(m_rightlead);
-    m_robotDrive.arcadeDrive(-m_stick.getY() * 0.5, m_stick.getX());
+
+    if(joystick){
+      m_robotDrive.arcadeDrive(-m_stick.getY() * speed, m_stick.getX());
+    }else{
+      m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * speed , -m_stick.getRawAxis(rightYAxis) * speed);
+    }
   }
 }
