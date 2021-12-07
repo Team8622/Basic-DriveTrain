@@ -12,15 +12,15 @@
 //This branch HAS camera control
 
 package frc.robot;
+
 import edu.wpi.first.cameraserver.CameraServer;
-
-
 
 //package org.usfirst.frc.team190.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -65,6 +65,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    Shuffleboard.getTab("Example tab"). add((Sendable)gyro);
+  
     new Thread(() -> {
       UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 
@@ -104,4 +106,26 @@ public class Robot extends TimedRobot {
       m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * speed , -m_stick.getRawAxis(rightYAxis) * speed);
     }
   }
+  Gyro gyro = new AM3O6OB_Gyro(SPI.Port.kMXP);
+Double kP=1;
+Spark left1 = new Spark(0);
+Spark Left2=new spark(1);
+Spark right1= new spark(2);
+Spark right2= new spark(3);
+
+MotorControllerGroup leftMotors = new MotorControllerGroup(left1, left2);
+MotorControllerGroup rightMotors = new MotorControllerGroup(right1, right2);
+DifferentialDrive drive = new DifferentialDrive(leftMotors, rightMotors);
+
+@Override
+public void autonomousInit(){
+  heading = gyro.getAngle();
+}
+
+
+@Override
+public void autonoumousPeriodic(){
+  double error = heading-gyro.getAngle();
+
+  drive.tankDrive(.5 +kP * error, .5 - kP * error);
 }
