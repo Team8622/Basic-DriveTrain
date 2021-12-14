@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   public static double speed = 0.75;
 
   //joystick == true; controller == false
-  public static boolean joystick = true;
+  public static boolean joystick = false;
   
   //Left Side Motor Controllers
   private final CANSparkMax m_leftlead = new CANSparkMax(leftID1, MotorType.kBrushless);  
