@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   public static double speed = 0.75;
 
   //joystick == true; controller == false
-  public static boolean joystick = false;
+  public static boolean joystick = true;
   
   //Left Side Motor Controllers
   private final CANSparkMax m_leftlead = new CANSparkMax(leftID1, MotorType.kBrushless);  
@@ -100,4 +100,5 @@ public class Robot extends TimedRobot {
       m_robotDrive.tankDrive(-m_stick.getRawAxis(leftYAxis) * speed , -m_stick.getRawAxis(rightYAxis) * speed);
     }
   }
+}
 
